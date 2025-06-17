@@ -42,10 +42,13 @@ stopBtn.onclick = async () => {
 
     setStatus("📝 Transcribing...", "#7f6fff");
     try {
-      const response = await fetch("http://localhost:5000/ask", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://voicebot-production-dd2b.up.railway.app/ask",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
       const data = await response.json();
       if (data.error) {
         setStatus("❌ " + data.error, "#ff6b81");

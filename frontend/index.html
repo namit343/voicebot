@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Home.LLC Voice Interview Bot</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Google Fonts for modern, elegant typography -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --bg-gradient: linear-gradient(
+                    135deg,
+                    #23243a 0%,
+                    #1a1b2e 100%
+                );
+                --glass-bg: rgba(40, 44, 63, 0.92);
+                --primary: #7f6fff;
+                --primary-glow: #a09cff;
+                --accent: #ffb86c;
+                --accent-dark: #ff7f50;
+                --card-border: rgba(127, 111, 255, 0.25);
+                --text-main: #f5f6fa;
+                --text-muted: #a0a3b1;
+                --error: #ff6b81;
+                --success: #43e97b;
+                --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+                --border-radius: 22px;
+            }
+            body {
+                min-height: 100vh;
+                margin: 0;
+                font-family: "Inter", "JetBrains Mono", monospace, sans-serif;
+                background: var(--bg-gradient);
+                color: var(--text-main);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .container {
+                background: var(--glass-bg);
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow);
+                border: 1.5px solid var(--card-border);
+                padding: 2.5rem 2rem 2rem 2rem;
+                max-width: 460px;
+                width: 100%;
+                text-align: center;
+                margin: 1.5rem;
+                backdrop-filter: blur(12px) saturate(120%);
+                position: relative;
+                overflow: hidden;
+            }
+            .container::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(
+                    circle at 80% 20%,
+                    var(--primary-glow) 0%,
+                    transparent 70%
+                );
+                opacity: 0.25;
+                z-index: 0;
+                pointer-events: none;
+            }
+            .logo {
+                width: 56px;
+                margin-bottom: 0.5rem;
+                filter: drop-shadow(0 2px 8px var(--primary));
+            }
+            h1 {
+                font-size: 2.1rem;
+                font-weight: 700;
+                margin: 0 0 0.6rem 0;
+                color: var(--primary);
+                letter-spacing: 0.01em;
+                z-index: 1;
+                position: relative;
+            }
+            .subtitle {
+                color: var(--text-muted);
+                font-size: 1.08rem;
+                margin-bottom: 1.7rem;
+                z-index: 1;
+                position: relative;
+            }
+            .recorder {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 1.2rem;
+                margin-bottom: 1.7rem;
+                z-index: 1;
+                position: relative;
+            }
+            .btn {
+                padding: 0.95rem 2.2rem;
+                border: none;
+                border-radius: 50px;
+                font-size: 1.11rem;
+                font-weight: 700;
+                cursor: pointer;
+                background: linear-gradient(
+                    90deg,
+                    var(--primary) 0%,
+                    var(--accent) 100%
+                );
+                color: #fff;
+                box-shadow: 0 2px 16px 0 rgba(127, 111, 255, 0.14);
+                transition:
+                    transform 0.1s,
+                    box-shadow 0.2s,
+                    background 0.2s;
+                outline: none;
+                position: relative;
+                overflow: hidden;
+            }
+            .btn:active {
+                transform: scale(0.97);
+                box-shadow: 0 1px 6px 0 rgba(127, 111, 255, 0.1);
+            }
+            .btn-record {
+                background: linear-gradient(
+                    90deg,
+                    var(--primary) 0%,
+                    var(--primary-glow) 100%
+                );
+            }
+            .btn-stop {
+                background: linear-gradient(
+                    90deg,
+                    var(--accent-dark) 0%,
+                    var(--accent) 100%
+                );
+            }
+            .btn[disabled] {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+            .status {
+                margin-bottom: 1.3rem;
+                font-size: 1.13rem;
+                color: var(--primary-glow);
+                min-height: 1.3em;
+                font-family: "JetBrains Mono", monospace;
+                letter-spacing: 0.01em;
+                z-index: 1;
+                position: relative;
+            }
+            .qa-section {
+                background: rgba(60, 64, 100, 0.88);
+                border-radius: 16px;
+                padding: 1.2rem 1rem 1.2rem 1rem;
+                margin-bottom: 1.2rem;
+                box-shadow: 0 1px 8px rgba(127, 111, 255, 0.08);
+                border: 1px solid var(--card-border);
+                text-align: left;
+                z-index: 1;
+                position: relative;
+            }
+            .qa-label {
+                font-weight: 700;
+                color: var(--accent);
+                margin-bottom: 0.4rem;
+                display: block;
+                font-size: 1.02rem;
+                letter-spacing: 0.01em;
+            }
+            .qa-text {
+                color: var(--text-main);
+                font-size: 1.11rem;
+                min-height: 1.2em;
+                font-family: "JetBrains Mono", monospace;
+                white-space: pre-wrap;
+            }
+            .audio-player {
+                margin-top: 1.4rem;
+                width: 100%;
+                border-radius: 8px;
+                background: var(--primary-glow);
+                box-shadow: 0 1px 8px rgba(127, 111, 255, 0.14);
+            }
+            .footer {
+                margin-top: 1.7rem;
+                color: var(--text-muted);
+                font-size: 1.01rem;
+                letter-spacing: 0.02em;
+                z-index: 1;
+                position: relative;
+            }
+            /* Animated glowing border for container */
+            .container::after {
+                content: "";
+                position: absolute;
+                inset: -3px;
+                border-radius: var(--border-radius);
+                padding: 2px;
+                background: linear-gradient(
+                    120deg,
+                    var(--primary),
+                    var(--accent),
+                    var(--primary-glow)
+                );
+                opacity: 0.18;
+                z-index: 0;
+                pointer-events: none;
+                filter: blur(3px);
+            }
+            /* Responsive */
+            @media (max-width: 540px) {
+                .container {
+                    padding: 1.2rem 0.3rem 1.1rem 0.3rem;
+                }
+                h1 {
+                    font-size: 1.3rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <img
+                src="https://cdn-icons-png.flaticon.com/512/3062/3062634.png"
+                class="logo"
+                alt="Bot Logo"
+            />
+            <h1>Home.LLC Voice Interview Bot</h1>
+            <div class="subtitle">
+                Practice your interview with AI-powered voice responses
+            </div>
+            <div class="recorder">
+                <button id="recordBtn" class="btn btn-record">🎤 Record</button>
+                <button id="stopBtn" class="btn btn-stop" disabled>
+                    ⏹️ Stop
+                </button>
+            </div>
+            <div class="status" id="statusMsg"></div>
+            <div class="qa-section">
+                <span class="qa-label">Your Question:</span>
+                <span class="qa-text" id="userText"></span>
+            </div>
+            <div class="qa-section">
+                <span class="qa-label">Bot Answer:</span>
+                <span class="qa-text" id="botAnswer"></span>
+            </div>
+            <audio id="botAudio" class="audio-player" controls></audio>
+            <div class="footer">
+                &copy; 2025 Home.LLC AI Agent Demo &mdash; Powered by OpenAI
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

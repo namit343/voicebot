@@ -43,7 +43,7 @@ stopBtn.onclick = async () => {
     setStatus("📝 Transcribing...", "#7f6fff");
     try {
       const response = await fetch(
-        "https://voicebot-production-dd2b.up.railway.app/ask",
+        "https://voicebot-pj0q.onrender.com/ask",
         {
           method: "POST",
           body: formData,
